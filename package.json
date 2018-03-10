@@ -6,7 +6,7 @@
     "server": "nodemon server.js",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
     "start": "node server.js",
-    "postinstall": "cd client && yarn build"
+    "postinstall": "cd client && yarn install && yarn build"
   },
   "dependencies": {
     "express": "^4.16.2"
