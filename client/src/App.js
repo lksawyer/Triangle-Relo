@@ -29,15 +29,13 @@ class App extends Component {
 
   zillowSearch = () => {
     // `http://www.zillow.com/webservice/GetRegionChildren.htm?zws-id=X1-ZWz1g7awznkjyj_4ok8b&state=wa&city=seattle&childtype=neighborhood`
-    const baseURL = 'http://www.zillow.com/webservice/GetRegionChildren.htm?output=json&';
+    const baseURL = 'https://www.zillow.com/webservice/GetRegionChildren.htm?output=json&';
     const zwsid = 'zws-id=' + 'X1-ZWz1g7awznkjyj_4ok8b' + '&';
     // const searchState = document.getElementById('search').value.trim;
     // const searchCity = document.getElementById('search').value.trim;
     const address = document.getElementById('search').value.split(',');
     const city = address[0];
     const state = address[1];
-    console.log(city);
-    console.log('address ', address);
     const addressQuery = 'state=' + state + '&city=' + city + '&';
     const type = 'childtype=' + 'neighborhood';
     axios.get(baseURL + zwsid + addressQuery + type)

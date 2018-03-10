@@ -4,10 +4,13 @@
   "scripts": {
     "client": "cd client && yarn start",
     "server": "nodemon server.js",
-    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
+    "start": "node server.js",
+    "postinstall": "cd client && yarn install && yarn build"
   },
   "dependencies": {
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "mongoose": "^5.0.9"
   },
   "devDependencies": {
     "concurrently": "^3.5.0",
