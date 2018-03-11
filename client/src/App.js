@@ -5,6 +5,8 @@ import Map from './Map/Map';
 import axios from 'axios';
 import convert from 'xml-js';
 
+/*global google */
+
 class App extends Component {
 
   state = {
@@ -57,11 +59,22 @@ class App extends Component {
     });
   }
 
+  //Search autocomplete
+  activatePlacesSearch = () => {
+    console.log("autocomplete");
+    const options = {
+      types: ['(cities)'],
+      componentRestrictions: {country: "us"}
+     };
+    const input = document.getElementById('search');
+    const autocomplete = new google.maps.places.Autocomplete(input, options);
+  }
+
   render() {
 
     return (
       <div>
-        <Search zillowSearch={this.zillowSearch}/>
+        <Search zillowSearch={this.zillowSearch} autocomplete={this.activatePlacesSearch}/>
         <Chips chips={this.state.chips} addChip={this.addChipHandler} deleteChip={this.deleteChipHandler}/>
         <Map 
           defaultLat={this.state.defaultCord.lat} 

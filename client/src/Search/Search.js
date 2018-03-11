@@ -8,7 +8,7 @@ const Search = ( props ) => {
     return (
         <div>
             <p>Enter "City, State" to get neighborhood information</p>
-            <input id="search" type="text" style={inputWidth}/>
+            <input id="search" type="text" style={inputWidth} onChange={props.autocomplete}/>
             <button onClick={props.zillowSearch}>Search</button>
         </div>
     );
