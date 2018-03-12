@@ -26,3 +26,17 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.brand-logo {
+  margin-left: 15px;
+}
+
+.nav-wrapper {
+  background: blue;
+}
+
+.page-footer {
+  background: blue;
+  text-align: center;
+}
+

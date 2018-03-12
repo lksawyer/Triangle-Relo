@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import Search from './Search/Search';
 import Chips from './Chips/Chips';
 import Map from './Map/Map';
+import './App.css';
+import Navbar from './Navbar/Navbar';
+import Footer from './Footer/Footer';
 import axios from 'axios';
 import convert from 'xml-js';
 
@@ -74,6 +77,7 @@ class App extends Component {
 
     return (
       <div>
+        <Navbar />
         <Search zillowSearch={this.zillowSearch} autocomplete={this.activatePlacesSearch}/>
         <Chips chips={this.state.chips} addChip={this.addChipHandler} deleteChip={this.deleteChipHandler}/>
         <Map 
@@ -83,6 +87,7 @@ class App extends Component {
           newCord={this.state.newCord}
           neighborhoods={this.state.neighborhoods}
         />
+        <Footer />
       </div>
     );
   }
