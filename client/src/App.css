@@ -28,15 +28,22 @@
 }
 
 .brand-logo {
-  margin-left: 15px;
+  margin-left: 120px;
 }
 
+nav {
+  height: 80px;
+  /* padding: 10px; */
+}
 .nav-wrapper {
-  background: blue;
+  background: #133686;
+  padding: 10px;
 }
 
 .page-footer {
-  background: blue;
+  background: #133686;
   text-align: center;
+  height: 80px;
+  padding: 25px;
 }
 
