@@ -6,10 +6,10 @@ const navbar = (props) => {
             <div>
                 <nav>
                     <div className="nav-wrapper">
-                        <a href="#" className="brand-logo">Relo</a>
+                        <a href="#" className="brand-logo">&#9665;Relo</a>
                     <ul id="nav-mobile" className="right hide-on-med-and-down">
-                        <li><a href="sass.html">Saved Homes</a></li>
-                        <li><a href="badges.html">Map</a></li>
+                        <li className="navbtn"><a href="sass.html">Saved Homes</a></li>
+                        <li className="navbtn"><a href="badges.html">Map</a></li>
                     </ul>
                     </div>
                 </nav>
