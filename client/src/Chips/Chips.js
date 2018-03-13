@@ -6,7 +6,7 @@ const inputWidth = {
 
 const Chips = (props) => {
     return (
-        <div>
+        <div className="chipDiv">
             {
                 props.chips.map(function(chipName, index) {
                     return (
