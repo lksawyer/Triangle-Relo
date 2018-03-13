@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import Search from './Search/Search';
 import Chips from './Chips/Chips';
 import Map from './Map/Map';
+import GoogleMapWrapper from './Map/GoogleMapWrapper';
 import axios from 'axios';
 import convert from 'xml-js';
+
 
 /*global google */
 
@@ -49,9 +51,9 @@ class App extends Component {
       const regionLat = json['RegionChildren:regionchildren'].response.region.latitude._text;
       const regionLng = json['RegionChildren:regionchildren'].response.region.longitude._text;
       const neighborhoods = json['RegionChildren:regionchildren'].response.list.region;
-      this.setState({ 
+      this.setState({
         newCord: {_id: regionID, lat: regionLat, lng: regionLng},
-        neighborhoods: neighborhoods 
+        neighborhoods: neighborhoods
       });
       console.log('state ', this.state);
     })
@@ -74,9 +76,8 @@ class App extends Component {
   //Add places to map
   addGooglePlacesHandler = (map) => {
     console.log("addGooglePlacesHandler");
-    console.log("from agph ", map);
-    
-    // const center = {lat: 35.779, lng: -78.638}; 
+
+    // const center = {lat: 35.779, lng: -78.638};
     // //where to search for nearby places, radius of search, type of place (grocery, cafe, etc)
     // const request = {
     //   query: 'cafe',
@@ -95,7 +96,7 @@ class App extends Component {
     //         }
     //     }
     // }
-    
+
     // //Custom maker icon
     // const image = {
     //     url: "https://www.shareicon.net/data/2015/09/21/644139_pin_512x512.png",
@@ -120,8 +121,7 @@ class App extends Component {
 
   //Callback for getting map defined in GoogelMapWrapper into App.js
   mapCallback = (map) => {
-    console.log("mapCallback ", map);
-    this.setState({map: map});
+    // this.setState({map: map});
   }
 
   render() {
@@ -130,13 +130,22 @@ class App extends Component {
       <div>
         <Search zillowSearch={this.zillowSearch} autocomplete={this.activatePlacesSearch}/>
         <Chips chips={this.state.chips} addChip={this.addChipHandler} deleteChip={this.deleteChipHandler} addGooglePlaces={this.addGooglePlacesHandler} map={this.mapCallback}/>
-        <Map 
-          defaultLat={this.state.defaultCord.lat} 
+        {/* <Map
+          defaultLat={this.state.defaultCord.lat}
           defaultLng={this.state.defaultCord.lng}
           newCord={this.state.newCord}
           neighborhoods={this.state.neighborhoods}
           mapCallback={this.mapCallback}//So this.map from GoogleMapsWrapper can be accessed in the parent
-        />
+        /> */}
+        <div style={{ height: '450px' }}>
+          <GoogleMapWrapper
+            defaultLat={this.state.defaultCord.lat}
+            defaultLng={this.state.defaultCord.lng}
+            newCord={this.state.newCord}
+            neighborhoods={this.state.neighborhoods}
+            mapCallback={this.state.mapCallback}//So this.map from GoogleMapsWrapper can be accessed in the parent
+          />
+        </div>
       </div>
     );
   }
