@@ -8,24 +8,43 @@ class GoogleMapWrapper extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log('componentWillReceiveProps ', nextProps)
         //centers map off of data in state.newCord
-        this.map.panTo({lat: parseFloat(nextProps.newCord.lat), lng: parseFloat(nextProps.newCord.lng)});
+        let lat = nextProps.newCord.lat;
+        let long = nextProps.newCord.lng;
+        // Don't do anything if there are no new coordinates
+        if (!!lat || !!long) {
+            this.panMap(lat, long)
+        }
 
         //plots markers based off of data in state.neighborhoods
-        for(let i = 0; i < nextProps.neighborhoods.length; i++ ) {
+        const neighborhoods = nextProps.neighborhoods;
+        if (!!neighborhoods.length) {
+            this.addNeighborhoods(neighborhoods);
+        }
+    }
+
+    panMap(lat, long) {
+        if (!lat) lat = this.props.defaultLat;
+        if (!long) long = this.props.defaultLng;
+        this.map.panTo({ lat: parseFloat(lat), lng: parseFloat(long) });
+    }
+
+    addNeighborhoods() {
+
+        for (let i = 0; i < neighborhoods.length; i++) {
             this.marker = new google.maps.Marker({
-                position: {lat: parseFloat(nextProps.neighborhoods[i].latitude['_text']), lng: parseFloat(nextProps.neighborhoods[i].longitude['_text'])},
+                position: { lat: parseFloat(nextProps.neighborhoods[i].latitude['_text']), lng: parseFloat(nextProps.neighborhoods[i].longitude['_text']) },
                 map: this.map
             });
         }
-
     }
 
     componentDidMount() {
 
         console.log("componenetDidMount");
 
-        const center = {lat: this.props.defaultLat, lng: this.props.defaultLng}; 
+        const center = {lat: this.props.defaultLat, lng: this.props.defaultLng};
 
         this.map = new google.maps.Map(this.refs.map, {
             center: center,
@@ -33,7 +52,11 @@ class GoogleMapWrapper extends Component {
         });
 
         //Passes this.map to App.js so we can store this.map in state and allow child components to access this.map
-        this.props.mapCallback(this.map);
+
+        // if (!this.hasMounted) {
+        //     this.hasMounted = true;
+        //     this.props.mapCallback(this.map);
+        // }
 
         //Places=================================================
 
@@ -55,7 +78,7 @@ class GoogleMapWrapper extends Component {
         //         }
         //     }
         // }
-        
+
         // //Custom maker icon
         // const image = {
         //     url: "https://www.shareicon.net/data/2015/09/21/644139_pin_512x512.png",
