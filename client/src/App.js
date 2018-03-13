@@ -13,7 +13,8 @@ class App extends Component {
     chips: ["Grocery","Church","Parks","School","Hospital"],
     defaultCord: {lat: 35.779,lng: -78.638}, //map is centered on raleigh when app loads
     newCord: {}, //center map on cord we get from zillow
-    neighborhoods: [] //populated when we query zillow
+    neighborhoods: [], //populated when we query zillow
+    map: {}
   }
 
   addChipHandler = () => {
@@ -70,18 +71,71 @@ class App extends Component {
     const autocomplete = new google.maps.places.Autocomplete(input, options);
   }
 
+  //Add places to map
+  addGooglePlacesHandler = (map) => {
+    console.log("addGooglePlacesHandler");
+    console.log("from agph ", map);
+    
+    // const center = {lat: 35.779, lng: -78.638}; 
+    // //where to search for nearby places, radius of search, type of place (grocery, cafe, etc)
+    // const request = {
+    //   query: 'cafe',
+    //   location: center,
+    //   radius: 8047,
+    // };
+
+    // //Construct a service object
+    // const service = new google.maps.places.PlacesService(map);
+
+    // //Callback for text search. Ensures places are returned
+    // const callback = (results, status) => {
+    //     if(status == google.maps.places.PlacesServiceStatus.OK) {
+    //         for (let i=0; i < results.length; i++) {
+    //             createMarker(results[i]);
+    //         }
+    //     }
+    // }
+    
+    // //Custom maker icon
+    // const image = {
+    //     url: "https://www.shareicon.net/data/2015/09/21/644139_pin_512x512.png",
+    //     size: new google.maps.Size(71, 71),
+    //     origin: new google.maps.Point(0, 0),
+    //     anchor: new google.maps.Point(17, 34),
+    //     scaledSize: new google.maps.Size(25, 25)
+    //   };
+
+    // const createMarker = (place) => {
+    //     const placeLoc = place.geometry.location;
+    //     const marker = new google.maps.Marker({
+    //         map: map,
+    //         position: place.geometry.location,
+    //         title: "cafe",
+    //         icon: image
+    //     });
+    // }
+
+    // service.textSearch(request, callback);
+  }
+
+  //Callback for getting map defined in GoogelMapWrapper into App.js
+  mapCallback = (map) => {
+    console.log("mapCallback ", map);
+    this.setState({map: map});
+  }
+
   render() {
 
     return (
       <div>
         <Search zillowSearch={this.zillowSearch} autocomplete={this.activatePlacesSearch}/>
-        <Chips chips={this.state.chips} addChip={this.addChipHandler} deleteChip={this.deleteChipHandler}/>
+        <Chips chips={this.state.chips} addChip={this.addChipHandler} deleteChip={this.deleteChipHandler} addGooglePlaces={this.addGooglePlacesHandler} map={this.mapCallback}/>
         <Map 
           defaultLat={this.state.defaultCord.lat} 
           defaultLng={this.state.defaultCord.lng}
-          // newCord={this.updateMapCordHandler}
           newCord={this.state.newCord}
           neighborhoods={this.state.neighborhoods}
+          mapCallback={this.mapCallback}//So this.map from GoogleMapsWrapper can be accessed in the parent
         />
       </div>
     );

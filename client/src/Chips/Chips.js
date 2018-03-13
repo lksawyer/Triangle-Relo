@@ -5,12 +5,13 @@ const inputWidth = {
 };
 
 const Chips = (props) => {
+    
     return (
         <div>
-            {
+            {   
                 props.chips.map(function(chipName, index) {
                     return (
-                        <div className="chip" key={index}>
+                        <div className="chip" key={index} onClick={() => {props.addGooglePlaces(props.map)}}>
                             {chipName}
                             <i className="close material-icons" onClick={() => {props.deleteChip(index)}}>x</i>
                         </div>);
