@@ -135,6 +135,27 @@ nav {
 z-index: -1;
 }
 
+#searchButton {
+  background-color: red;
+  color: white;
+  border-radius: 30px;
+  width: 100px;
+  margin-left: 10px;
+  height: 45px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#search {
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#searchInstruct {
+  font-size: 25px;
+  font-family: 'Montserrat', sans-serif;
+}
+
 /* .bg-img:hover {
   transform: translate3d(0px, -200px, 0px);
 } */
@@ -158,4 +179,6 @@ z-index: -1;
   height: 80px;
   padding: 25px;
 }
+
+
 
