@@ -149,11 +149,13 @@ z-index: -1;
   background: white;
   border-radius: 5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  color: black
 }
 
 #searchInstruct {
   font-size: 25px;
   font-family: 'Montserrat', sans-serif;
+  margin-bottom: 5px;
 }
 
 /* .bg-img:hover {
