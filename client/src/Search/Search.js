@@ -6,10 +6,16 @@ const inputWidth = {
 
 const Search = ( props ) => {
     return (
-        <div>
-            <p>Enter "City, State" to get neighborhood information</p>
-            <input id="search" type="text" style={inputWidth} onChange={props.autocomplete}/>
-            <button onClick={props.zillowSearch}>Search</button>
+        <div className="searchDiv">
+            <div className="searchHover">
+                <img className="bg-img" src="bg1.jpg"/>
+                <p className="searchTitle">Begin your search here</p>
+                <div className="form">
+                    <p>Enter "City, State" to get neighborhood information</p>
+                    <input id="search" type="text" style={inputWidth} onChange={props.autocomplete}/>
+                    <button onClick={props.zillowSearch}>Search</button>
+                </div>
+            </div>        
         </div>
     );
 };

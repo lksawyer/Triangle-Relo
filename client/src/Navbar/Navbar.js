@@ -7,10 +7,10 @@ const navbar = (props) => {
                 <nav>
                     <div className="nav-wrapper">
                         <a href="#" className="brand-logo">&#9665;Relo</a>
-                    <ul id="nav-mobile" className="right hide-on-med-and-down">
-                        <li className="navbtn"><a href="sass.html">Saved Homes</a></li>
-                        <li className="navbtn"><a href="badges.html">Map</a></li>
-                    </ul>
+                    <div id="navDiv" className="right hide-on-med-and-down">
+                        <button className="navbtn"><a href="sass.html">Saved Homes</a></button>
+                        <button className="navbtn"><a href="badges.html">Map</a></button>
+                    </div>
                     </div>
                 </nav>
             </div>

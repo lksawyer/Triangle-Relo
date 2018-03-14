@@ -31,16 +31,17 @@ body {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
-/* HEADER/NAVIGATION */
+/* HEADER */
 .brand-logo {
   margin-left: 120px;
   font-family: 'Montserrat', sans-serif;
   font-weight: bolder;
 }
 
+
+/* NAV BUTTONS  */
 nav {
   height: 80px;
-  /* padding: 10px; */
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .nav-wrapper {
@@ -48,11 +49,102 @@ nav {
   padding: 6px;
 }
 
+.navDiv {
+  position: absolute;
+  right: 0;
+  margin: 0;
+  float: right;
+}
+.navbtn {
+  height: 68px;
+  /* width: 90px; */
+  margin: 0;
+  color: #FFFFFF;
+  background-color: #133686;
+  border: none;
+  font-family: 'Montserrat', sans-serif;
+  float: right;
+  text-align: center;
+  position: relative;
+  text-decoration: none;
+  line-height: 80px;
+  transition: all .2s ease-in-out;
+  font-weight: bolder;
+}
+
+.navbtn:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #FFFFFF;
+  visibility: hidden;
+  -webkit-transform: scaleX(0);
+  transform: scaleX(0);
+  -webkit-transition: all 0.3s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s;
+}
+
+.navbtn:hover:before {
+  visibility: visible;
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1);
+}
+
+/* SEARCH AND BACKGROUND IMAGE */
+.searchDiv {
+  width: 100%;
+  height: 220px;
+  text-align: center;
+  /* background-color: #133686; */
+  color: #FFFFFF;
+  /* padding: 20px; */
+  overflow: hidden;
+}
+
+.searchTitle {
+  position: absolute;
+  top: 60px;
+  right: 80px;
+  font-size: 30px;
+  font-weight: bolder;
+}
+
+.searchHover {
+  position: relative;
+  top: 0px;
+  transition: transform .60s ease-in-out;
+}
+
+.searchHover:hover {
+  transform: translate3d(0px, -200px, 0px);
+}
+
+.form {
+  position: absolute;
+  top: 280px;
+  right: 40px;
+  text-align: right;
+  font-weight: bolder;
+  z-index: 1;
+}
+
+.bg-img {
+z-index: -1;
+}
+
+/* .bg-img:hover {
+  transform: translate3d(0px, -200px, 0px);
+} */
+
 /* CHIPS */
 .chipDiv {
   background-color: #133686;
   padding: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  text-align: center;
 }
 
 .chips {
