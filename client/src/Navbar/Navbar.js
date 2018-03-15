@@ -9,7 +9,7 @@ const navbar = (props) => {
                         <a href="#" className="brand-logo">&#9665;Relo</a>
                     <div id="navDiv" className="right hide-on-med-and-down">
                         <button className="navbtn"><a href="sass.html">Saved Homes</a></button>
-                        <button className="navbtn"><a href="badges.html">Map</a></button>
+                        <button className="navbtn">Login</button>
                     </div>
                     </div>
                 </nav>
