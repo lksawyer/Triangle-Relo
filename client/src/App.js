@@ -16,7 +16,8 @@ class App extends Component {
     chips: ["Grocery","Church","Parks","School","Hospital"],
     defaultCord: {lat: 35.779,lng: -78.638}, //map is centered on raleigh when app loads
     newCord: {}, //center map on cord we get from zillow
-    neighborhoods: [] //populated when we query zillow
+    neighborhoods: [], //populated when we query zillow
+    placesQuery: "" //updates to the text value stored in the selected chip
   }
 
   addChipHandler = () => {
@@ -36,8 +37,6 @@ class App extends Component {
     // `http://www.zillow.com/webservice/GetRegionChildren.htm?zws-id=X1-ZWz1g7awznkjyj_4ok8b&state=wa&city=seattle&childtype=neighborhood`
     const baseURL = 'https://www.zillow.com/webservice/GetRegionChildren.htm?output=json&';
     const zwsid = 'zws-id=' + 'X1-ZWz1g7awznkjyj_4ok8b' + '&';
-    // const searchState = document.getElementById('search').value.trim;
-    // const searchCity = document.getElementById('search').value.trim;
     const address = document.getElementById('search').value.split(',');
     const city = address[0];
     const state = address[1];
@@ -63,7 +62,7 @@ class App extends Component {
   }
 
   //Search autocomplete
-  activatePlacesSearch = () => {
+  activateAutocompletePlacesSearch = () => {
     console.log("autocomplete");
     const options = {
       types: ['(cities)'],
@@ -73,19 +72,30 @@ class App extends Component {
     const autocomplete = new google.maps.places.Autocomplete(input, options);
   }
 
+  addPlacesHandler = (e) => {
+    console.log("addPlacesHandler");
+    if (this.state.neighborhoods.length === 0) {
+      console.log("Search for City, State first!");
+    } else {
+      console.log("e.target ", e.target.getAttribute('data-query'));
+      this.setState({placesQuery: e.target.getAttribute('data-query')});
+      console.log('addPlacesState ', this.state);
+    }
+  }
+
   render() {
 
     return (
       <div>
         <Navbar />
-        <Search zillowSearch={this.zillowSearch} autocomplete={this.activatePlacesSearch}/>
-        <Chips chips={this.state.chips} addChip={this.addChipHandler} deleteChip={this.deleteChipHandler}/>
+        <Search zillowSearch={this.zillowSearch} autocomplete={this.activateAutocompletePlacesSearch}/>
+        <Chips chips={this.state.chips} addChip={this.addChipHandler} deleteChip={this.deleteChipHandler} addPlaces={this.addPlacesHandler}/>
         <Map 
           defaultLat={this.state.defaultCord.lat} 
           defaultLng={this.state.defaultCord.lng}
-          // newCord={this.updateMapCordHandler}
           newCord={this.state.newCord}
           neighborhoods={this.state.neighborhoods}
+          placesQuery={this.state.placesQuery}
         />
         <Footer />
       </div>
