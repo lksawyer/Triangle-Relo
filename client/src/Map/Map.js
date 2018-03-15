@@ -10,6 +10,7 @@ const Map = (props) => {
                 defaultLng={props.defaultLng}
                 newCord={props.newCord}
                 neighborhoods={props.neighborhoods}
+                placesQuery={props.placesQuery}
             />
         </div>
     );
