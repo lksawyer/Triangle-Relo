@@ -37,50 +37,8 @@ class GoogleMapWrapper extends Component {
 
         if (placesQuery) {
 
-            const centerPlaces = {lat: newCordLat, lng: newCordLng}; //Ensures when places are added to map, they are centered on maps center
-
-            const query = nextProps.placesQuery;
-
-            //where to search for nearby places, radius of search, type of place (grocery, cafe, etc)
-            const request = {
-                query: query,
-                location: centerPlaces,
-                radius: 8047,
-            };
-
-            //Construct a service object
-            const service = new google.maps.places.PlacesService(this.map);
-
-            //Callback for text search. Ensures places are returned
-            const callback = (results, status) => {
-                if(status == google.maps.places.PlacesServiceStatus.OK) {
-                    for (let i=0; i < results.length; i++) {
-                        createMarker(results[i]);
-                    }
-                }
-            }
-            
-            //Custom maker icon
-            const image = {
-                url: "https://www.shareicon.net/data/2015/09/21/644139_pin_512x512.png",
-                size: new google.maps.Size(71, 71),
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(17, 34),
-                scaledSize: new google.maps.Size(25, 25)
-            };
-
-            const createMarker = (place) => {
-                const placeLoc = place.geometry.location;
-                const marker = new google.maps.Marker({
-                    map: this.map,
-                    position: place.geometry.location,
-                    title: "cafe",
-                    icon: image
-                });
-                placesMarkersArray.push(marker);
-            }
-
-            service.textSearch(request, callback);
+            this.placesPlotter(placesQuery, newCordLat, newCordLng);
+            this.removeSetOfPlaces(placesQuery);
 
         }
 
@@ -111,6 +69,91 @@ class GoogleMapWrapper extends Component {
                 map: this.map
             });
             neighborhoodMarkersArray.push(this.marker);
+        }
+    }
+
+    placesPlotter = (placesQuery, newCordLat, newCordLng) => {
+        const centerPlaces = {lat: newCordLat, lng: newCordLng}; //Ensures when places are added to map, they are centered on maps center
+        const query = placesQuery;
+        const tempPlacesMarkersArray = [];
+        const placesObj = {[query]: tempPlacesMarkersArray};
+        // var myObj = {[a]: b};
+
+        for (var i = 0; i < placesMarkersArray.length; i++) {
+            const tempObj = placesMarkersArray[i];
+            const key = Object.keys(tempObj);
+            if(key[0] === placesQuery) {
+                console.log(placesQuery + " markers will be removed");
+                return;
+            }
+        }
+        
+
+        //where to search for nearby places, radius of search, type of place (grocery, cafe, etc)
+        const request = {
+            query: query,
+            location: centerPlaces,
+            radius: 8047,
+        };
+
+        //Construct a service object
+        const service = new google.maps.places.PlacesService(this.map);
+
+        //Callback for text search. Ensures places are returned
+        const callback = (results, status) => {
+            if(status == google.maps.places.PlacesServiceStatus.OK) {
+                for (let i=0; i < results.length; i++) {
+                    createMarker(results[i]);
+                }
+            }
+        }
+        
+        //Custom maker icon
+        const image = {
+            url: "https://www.shareicon.net/data/2015/09/21/644139_pin_512x512.png",
+            size: new google.maps.Size(71, 71),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(17, 34),
+            scaledSize: new google.maps.Size(25, 25)
+        };
+
+        const createMarker = (place) => {
+            const placeLoc = place.geometry.location;
+            const marker = new google.maps.Marker({
+                map: this.map,
+                position: place.geometry.location,
+                title: placesQuery,
+                icon: image
+            });
+            tempPlacesMarkersArray.push(marker);
+        }
+
+        service.textSearch(request, callback);
+        placesMarkersArray.push(placesObj);
+        console.log("from placesMarkersArray ", placesMarkersArray);
+    }
+
+    removeSetOfPlaces = (placesQuery) => {
+        console.log("removeSetOfPlaces");
+        if (placesMarkersArray) {
+            for (var i = 0; i < placesMarkersArray.length; i++) {
+                const tempObj = placesMarkersArray[i];
+                const key = Object.keys(tempObj);
+                console.log("tempObj ", tempObj); 
+                console.log("key ", key);
+                console.log("places query", placesQuery);
+                console.log(key[0] === placesQuery);
+                console.log("tempObj[placesQuery] ", tempObj[key]); 
+                if(key[0] === placesQuery) {
+                    console.log("we're in");
+                    console.log(placesMarkersArray[i][placesQuery]);
+                    for (var j = 0; j < placesMarkersArray[i][placesQuery].length; j++) {
+                        placesMarkersArray[i][placesQuery][j].setMap(null);
+                    }
+                    console.log("placesMarkersArray from places Plotter ", placesMarkersArray);
+                    return;
+                }
+            }
         }
     }
 

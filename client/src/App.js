@@ -77,9 +77,7 @@ class App extends Component {
     if (this.state.neighborhoods.length === 0) {
       console.log("Search for City, State first!");
     } else {
-      console.log("e.target ", e.target.getAttribute('data-query'));
       this.setState({placesQuery: e.target.getAttribute('data-query')});
-      console.log('addPlacesState ', this.state);
     }
   }
 
