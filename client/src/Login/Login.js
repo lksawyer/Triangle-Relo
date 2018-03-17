@@ -14,7 +14,21 @@ class Login extends React.Component{
     console.log({ googleId });
     console.log({accessToken: id_token});
     //anything else you want to do(save to localStorage)...
+
+    //search Mongo for GoogleID, if null add
+    //var db = require("../models");
+    //db.Library.create({ name: "UserSearch" })
+    //.then(function(dbLibrary) {
+    //If saved successfully, print the new Library document to the console
+    //console.log(dbLibrary);
+    //})
+    //.catch(function(err) {
+    //If an error occurs, print it to the console
+    //console.log(err.message);
+    //});
   }
+
+
 
   render () {
     return (
