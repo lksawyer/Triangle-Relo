@@ -11,6 +11,7 @@ const Map = (props) => {
                 newCord={props.newCord}
                 neighborhoods={props.neighborhoods}
                 placesQuery={props.placesQuery}
+                placesColor={props.placesColor}
             />
         </div>
     );

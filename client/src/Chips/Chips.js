@@ -10,7 +10,7 @@ const Chips = (props) => {
             {
                 props.chips.map(function(chipName, index) {
                     return (
-                        <div className="chip" key={index} data-query={chipName} onClick={(e) => {props.addPlaces(e)}}>
+                        <div className="chip" key={index} data-color={props.color[index]} style={{backgroundColor: props.color[index]}} data-query={chipName} onClick={(e) => {props.addPlaces(e)}}>
                             {chipName}
                             <i className="close material-icons" onClick={() => {props.deleteChip(index)}}>x</i>
                         </div>);
