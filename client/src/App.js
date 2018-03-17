@@ -14,10 +14,12 @@ class App extends Component {
 
   state = {
     chips: ["Grocery","Church","Parks","School","Hospital"],
+    color: ["red", "green", "blue", "yellow", "orange"],
     defaultCord: {lat: 35.779,lng: -78.638}, //map is centered on raleigh when app loads
     newCord: {}, //center map on cord we get from zillow
     neighborhoods: [], //populated when we query zillow
-    placesQuery: "" //updates to the text value stored in the selected chip
+    placesQuery: "", //updates to the text value stored in the selected chip
+    placesColor: ""
   }
 
   addChipHandler = () => {
@@ -78,7 +80,9 @@ class App extends Component {
       console.log("Search for City, State first!");
     } else {
       this.setState({placesQuery: e.target.getAttribute('data-query')});
+      this.setState({placesColor: e.target.getAttribute('data-color')});
     }
+
   }
 
   render() {
@@ -87,13 +91,14 @@ class App extends Component {
       <div>
         <Navbar />
         <Search zillowSearch={this.zillowSearch} autocomplete={this.activateAutocompletePlacesSearch}/>
-        <Chips chips={this.state.chips} addChip={this.addChipHandler} deleteChip={this.deleteChipHandler} addPlaces={this.addPlacesHandler}/>
+        <Chips chips={this.state.chips} color={this.state.color} addChip={this.addChipHandler} deleteChip={this.deleteChipHandler} addPlaces={this.addPlacesHandler}/>
         <Map 
           defaultLat={this.state.defaultCord.lat} 
           defaultLng={this.state.defaultCord.lng}
           newCord={this.state.newCord}
           neighborhoods={this.state.neighborhoods}
           placesQuery={this.state.placesQuery}
+          placesColor={this.state.placesColor}
         />
         <Footer />
       </div>

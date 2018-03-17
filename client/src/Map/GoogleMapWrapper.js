@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 /*global google */
 const neighborhoodMarkersArray = [];
 const placesMarkersArray = [];
+let infowindow;
 
 class GoogleMapWrapper extends Component {
 
@@ -34,10 +35,11 @@ class GoogleMapWrapper extends Component {
         //Places=================================================
 
         const placesQuery = nextProps.placesQuery;
+        const placesColor = nextProps.placesColor;
 
         if (placesQuery) {
 
-            this.placesPlotter(placesQuery, newCordLat, newCordLng);
+            this.placesPlotter(placesQuery, placesColor, newCordLat, newCordLng);
             this.removeSetOfPlaces(placesQuery);
 
         }
@@ -72,12 +74,15 @@ class GoogleMapWrapper extends Component {
         }
     }
 
-    placesPlotter = (placesQuery, newCordLat, newCordLng) => {
+    placesPlotter = (placesQuery, placesColor, newCordLat, newCordLng) => {
         const centerPlaces = {lat: newCordLat, lng: newCordLng}; //Ensures when places are added to map, they are centered on maps center
         const query = placesQuery;
         const tempPlacesMarkersArray = [];
         const placesObj = {[query]: tempPlacesMarkersArray};
+        infowindow = new google.maps.InfoWindow();
         // var myObj = {[a]: b};
+
+        let placesCounter = 0;
 
         for (var i = 0; i < placesMarkersArray.length; i++) {
             const tempObj = placesMarkersArray[i];
@@ -110,11 +115,11 @@ class GoogleMapWrapper extends Component {
         
         //Custom maker icon
         const image = {
-            url: "https://www.shareicon.net/data/2015/09/21/644139_pin_512x512.png",
-            size: new google.maps.Size(71, 71),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(17, 34),
-            scaledSize: new google.maps.Size(25, 25)
+            url: "markers/" + placesColor + "_MarkerO.png",
+            // size: new google.maps.Size(71, 71),
+            // origin: new google.maps.Point(0, 0),
+            // anchor: new google.maps.Point(17, 34),
+            // scaledSize: new google.maps.Size(25, 25)
         };
 
         const createMarker = (place) => {
@@ -126,6 +131,14 @@ class GoogleMapWrapper extends Component {
                 icon: image
             });
             tempPlacesMarkersArray.push(marker);
+
+            const test = "<p>" + place.name + "</p>" + "<p>" + marker.title + "</p>";
+
+
+            google.maps.event.addListener( marker, "click", function() {
+                infowindow.setContent(test);
+                infowindow.open(this.map, this);
+            });
         }
 
         service.textSearch(request, callback);
