@@ -36,7 +36,6 @@ class App extends Component {
   }
 
   zillowSearch = () => {
-    // `http://www.zillow.com/webservice/GetRegionChildren.htm?zws-id=X1-ZWz1g7awznkjyj_4ok8b&state=wa&city=seattle&childtype=neighborhood`
     const baseURL = 'https://www.zillow.com/webservice/GetRegionChildren.htm?output=json&';
     const zwsid = 'zws-id=' + 'X1-ZWz1g7awznkjyj_4ok8b' + '&';
     const address = document.getElementById('search').value.split(',');
@@ -44,7 +43,13 @@ class App extends Component {
     const state = address[1];
     const addressQuery = 'state=' + state + '&city=' + city + '&';
     const type = 'childtype=' + 'neighborhood';
-    axios.get(baseURL + zwsid + addressQuery + type)
+
+    //Now, we are going to use a Heroku proxy service to wrap our baseURL with a wrapper to avoid the CORS error from
+    //Zillow.
+    let corsURL = 'https://cors-anywhere.herokuapp.com/'+baseURL;
+    console.log("Here's the url we're trying to GET from Zillow "+corsURL);
+
+    axios.get(corsURL + zwsid + addressQuery + type)
     .then(res => {
       const json = convert.xml2js(res.data, {compact: true, spaces: 4});
       const region = json['RegionChildren:regionchildren'].response.region;
