@@ -47,8 +47,7 @@ class App extends Component {
     //Now, we are going to use a Heroku proxy service to wrap our baseURL with a wrapper to avoid the CORS error from
     //Zillow.
     let corsURL = 'https://cors-anywhere.herokuapp.com/'+baseURL;
-    console.log("Here's the url we're trying to GET from Zillow "+corsURL);
-
+    
     axios.get(corsURL + zwsid + addressQuery + type)
     .then(res => {
       const json = convert.xml2js(res.data, {compact: true, spaces: 4});
