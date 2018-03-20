@@ -80,7 +80,15 @@ class GoogleMapWrapper extends Component {
         for(let i = 0; i < neighborhoods.length; i++ ) {
             this.marker = new google.maps.Marker({
                 position: {lat: parseFloat(neighborhoods[i].latitude['_text']), lng: parseFloat(neighborhoods[i].longitude['_text'])},
-                map: this.map
+                map: this.map,
+
+                //Joshua added this piece to work on zillow info
+                //==============================================
+                //==============================================
+                name: neighborhoods[i].name,
+                url: neighborhoods[i].url
+                //==============================================
+                //==============================================
             });
 
             const markerMarkup = "<p>" + neighborhoods[i].name['_text'] + "</p>" + 
@@ -93,6 +101,19 @@ class GoogleMapWrapper extends Component {
             });
 
             neighborhoodMarkersArray.push(this.marker);
+
+
+            //==============================================
+            //==============================================
+            //const neighborhoodInfo = "<p>" + neighborhood[i].name + "</p>" + "<p>" + url + "</p>";
+
+
+            google.maps.event.addListener(this.marker, "click", function() {
+                infowindow.setContent();
+                infowindow.open(this.map, this);
+            });
+            //==============================================
+            //==============================================
         }
     }
 
