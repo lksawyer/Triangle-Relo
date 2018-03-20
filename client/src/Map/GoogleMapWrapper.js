@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 /*global google */
 const neighborhoodMarkersArray = [];
-const placesMarkersArray = [];
+let placesMarkersArray = [];
 let infowindow;
+let queryArray = [];//keeps a record of used queries
+let queryCounter = 0;//keeps track of how many times a query has been used
 
 class GoogleMapWrapper extends Component {
 
@@ -38,10 +40,19 @@ class GoogleMapWrapper extends Component {
         const placesColor = nextProps.placesColor;
 
         if (placesQuery) {
-
-            this.placesPlotter(placesQuery, placesColor, newCordLat, newCordLng);
-            this.removeSetOfPlaces(placesQuery);
-
+            queryCounter = 0;
+            queryArray.push(placesQuery);
+            for(let i = 0; i < queryArray.length; i++) {
+                if(queryArray[i] === placesQuery) {
+                    queryCounter++;
+                }
+            }
+            if(queryCounter === 1) { //plot marker if query has only been used once
+                this.placesPlotter(placesQuery, placesColor, newCordLat, newCordLng);
+            }
+            if(queryCounter === 2) { // remove marker if query has been used twice
+                this.removeSetOfPlaces(placesQuery);
+            }
         }
 
         //Places=================================================
@@ -82,16 +93,14 @@ class GoogleMapWrapper extends Component {
         infowindow = new google.maps.InfoWindow();
         // var myObj = {[a]: b};
 
-        let placesCounter = 0;
-
-        for (var i = 0; i < placesMarkersArray.length; i++) {
-            const tempObj = placesMarkersArray[i];
-            const key = Object.keys(tempObj);
-            if(key[0] === placesQuery) {
-                console.log(placesQuery + " markers will be removed");
-                return;
-            }
-        }
+        // for (var i = 0; i < placesMarkersArray.length; i++) {
+        //     const tempObj = placesMarkersArray[i];
+        //     const key = Object.keys(tempObj);
+        //     if(key[0] === placesQuery) {
+        //         console.log(placesQuery + " markers will be removed");
+        //         return;
+        //     }
+        // }
         
 
         //where to search for nearby places, radius of search, type of place (grocery, cafe, etc)
@@ -143,31 +152,49 @@ class GoogleMapWrapper extends Component {
 
         service.textSearch(request, callback);
         placesMarkersArray.push(placesObj);
-        console.log("from placesMarkersArray ", placesMarkersArray);
+        console.log("from plotter ", placesMarkersArray);
     }
 
     removeSetOfPlaces = (placesQuery) => {
-        console.log("removeSetOfPlaces");
-        if (placesMarkersArray) {
-            for (var i = 0; i < placesMarkersArray.length; i++) {
-                const tempObj = placesMarkersArray[i];
-                const key = Object.keys(tempObj);
-                console.log("tempObj ", tempObj); 
-                console.log("key ", key);
-                console.log("places query", placesQuery);
-                console.log(key[0] === placesQuery);
-                console.log("tempObj[placesQuery] ", tempObj[key]); 
-                if(key[0] === placesQuery) {
-                    console.log("we're in");
-                    console.log(placesMarkersArray[i][placesQuery]);
-                    for (var j = 0; j < placesMarkersArray[i][placesQuery].length; j++) {
-                        placesMarkersArray[i][placesQuery][j].setMap(null);
-                    }
-                    console.log("placesMarkersArray from places Plotter ", placesMarkersArray);
-                    return;
+        let tempArray = [];//holds query values !== to placesQuery
+
+        for (let i = 0; i < queryArray.length; i ++) {
+            if (queryArray[i] !== placesQuery) {
+                tempArray.push(queryArray[i]);
+            };
+        };
+        console.log(queryArray);
+        queryArray = tempArray;
+        console.log(queryArray);
+        console.log("before splice in remove " , placesMarkersArray);
+
+        for (let i = 0; i < placesMarkersArray.length; i++) {
+            if(placesMarkersArray[i][placesQuery]) {
+                console.log("from match ", placesMarkersArray[i]);
+                console.log(i);
+                for (let j = 0; j < placesMarkersArray[i][placesQuery].length; j++) {
+                    placesMarkersArray[i][placesQuery][j].setMap(null);
                 }
+                placesMarkersArray.splice(i,1);
+                console.log("updated placesMarkers array ", placesMarkersArray);
+                return;
             }
         }
+
+        
+        // for (let i = 0; i < placesMarkersArray.length; i++) {
+        //     const tempObj = {...placesMarkersArray[i]};
+        //     const key = Object.keys(tempObj);
+        //     if(key[0] === placesQuery) {
+        //         console.log("from match ", placesMarkersArray);
+        //         for (let j = 0; j < placesMarkersArray[i][placesQuery].length; j++) {
+        //             placesMarkersArray[i][placesQuery][j].setMap(null);
+        //         }
+        //         placesMarkersArray.splice(placesMarkersArray[i],1);
+        //         console.log("updated placesMarkers array ", placesMarkersArray);
+        //         return;
+        //     }
+        // }
     }
 
     componentDidMount() {
