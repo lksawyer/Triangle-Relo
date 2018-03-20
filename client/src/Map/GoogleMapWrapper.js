@@ -76,11 +76,22 @@ class GoogleMapWrapper extends Component {
 
     //When called, plots markers based off of data in state.neighborhoods
     neighborhoodPlotter = (neighborhoods) => {
+        infowindow = new google.maps.InfoWindow();
         for(let i = 0; i < neighborhoods.length; i++ ) {
             this.marker = new google.maps.Marker({
                 position: {lat: parseFloat(neighborhoods[i].latitude['_text']), lng: parseFloat(neighborhoods[i].longitude['_text'])},
                 map: this.map
             });
+
+            const markerMarkup = "<p>" + neighborhoods[i].name['_text'] + "</p>" + 
+            
+            "<p><a href=" + "'" + neighborhoods[i].url['_text'] + "'" + "target='_blank'>More Info</a></p>"; 
+
+            google.maps.event.addListener( this.marker, "click", function() {
+                infowindow.setContent(markerMarkup);
+                infowindow.open(this.map, this);
+            });
+
             neighborhoodMarkersArray.push(this.marker);
         }
     }
@@ -141,11 +152,11 @@ class GoogleMapWrapper extends Component {
             });
             tempPlacesMarkersArray.push(marker);
 
-            const test = "<p>" + place.name + "</p>" + "<p>" + marker.title + "</p>";
+            const markerMarkup = "<p>" + place.name + "</p>"
 
 
             google.maps.event.addListener( marker, "click", function() {
-                infowindow.setContent(test);
+                infowindow.setContent(markerMarkup);
                 infowindow.open(this.map, this);
             });
         }
